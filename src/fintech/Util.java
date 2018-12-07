@@ -62,6 +62,13 @@ public class Util {
 		}
 		return xorResult;
 	}
+	/**
+	 * this function convert two bytes to one byte when the values of the two bytes
+	 * is between 0x00 to 0x09
+	 * @param pan 
+	 * @param index current index of @param pan
+	 * @return product
+	 */
 	public static byte convertTwoBytesToOne(byte[] pan, int index) {
 		byte product = (byte) ((pan[index] << 4) | (pan[index+1] & 0x0F));
 		return product;

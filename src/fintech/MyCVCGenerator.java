@@ -110,7 +110,7 @@ public class MyCVCGenerator implements CVCGenerator {
 
 	@Override
 	public boolean checkCVCValue(byte[] data, byte[] key1, byte[] key2, byte[] cvcValue) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
