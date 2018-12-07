@@ -47,6 +47,9 @@ public class MyCVCGenerator implements CVCGenerator {
 				indexCvv++;
 			}
 		}
+		if (indexCvv != 3) {
+			//extract the cvv from bytes that higher than 0x09
+		}
 		return cvv;
 	}
 
