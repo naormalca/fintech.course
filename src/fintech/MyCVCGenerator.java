@@ -41,7 +41,7 @@ public class MyCVCGenerator implements CVCGenerator {
 			e.printStackTrace();
 		}
 		//extract the the three left most digit between 0-9
-		for (int i = 0; i < phase5Result.length; i++) {
+		for (int i = 0; i < phase5Result.length || indexCvv > 2; i++) {
 			if (phase5Result[i] <= 0x09 && phase5Result[i] >= 0x00) {
 				cvv[indexCvv] = phase5Result[i];
 				indexCvv++;
@@ -49,6 +49,12 @@ public class MyCVCGenerator implements CVCGenerator {
 		}
 		if (indexCvv != 3) {
 			//extract the cvv from bytes that higher than 0x09
+			for (int i = 0; i < phase5Result.length || indexCvv > 2; i++) {
+				if (phase5Result[i] > 0x09) {
+					cvv[indexCvv] = (byte) (phase5Result[i] - 0x10);
+					indexCvv++;
+				}
+			}
 		}
 		return cvv;
 	}
@@ -101,10 +107,19 @@ public class MyCVCGenerator implements CVCGenerator {
 			e.printStackTrace();
 		}
 		//extract the the three left most digit between 0-9
-		for (int i = 0; i < phase5Result.length; i++) {
+		for (int i = 0; i < phase5Result.length || indexCvv > 2; i++) {
 			if (phase5Result[i] <= 0x09 && phase5Result[i] >= 0x00) {
 				cvv[indexCvv] = phase5Result[i];
 				indexCvv++;
+			}
+		}
+		if (indexCvv != 3) {
+			//extract the cvv from bytes that higher than 0x09
+			for (int i = 0; i < phase5Result.length || indexCvv > 2; i++) {
+				if (phase5Result[i] > 0x09) {
+					cvv[indexCvv] = (byte) (phase5Result[i] - 0x10);
+					indexCvv++;
+				}
 			}
 		}
 		return cvv;
@@ -113,7 +128,11 @@ public class MyCVCGenerator implements CVCGenerator {
 
 	@Override
 	public boolean checkCVCValue(byte[] data, byte[] key1, byte[] key2, byte[] cvcValue) {
+		byte[] compre = getCVCValue(data, key1, key2, cvcValue.length);
 		
+		if (compre.equals(cvcValue)) {
+			return true;
+		}
 		return false;
 	}
 
