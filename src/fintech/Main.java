@@ -30,13 +30,7 @@ public class Main {
 		Util.print_log("MAIN", Util.byteArrayToHex(s.getCVCValue(data, key1, key2, 4)));
 		Util.print_log("MAIN", Util.byteArrayToHex(s.getCVCValue(pan, expiry, sc, key1, key2, 4)));
 	}
-	public static void print(byte[] arr) {
-		System.out.print("Print UnSinged: ");
-		for (int i = 0; i < arr.length; i++) {
-			System.out.print(Byte.toUnsignedInt(arr[i])+",");
-		}
-		System.out.println();
-	}
+
 }
 
 
