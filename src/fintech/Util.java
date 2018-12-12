@@ -32,15 +32,16 @@ public class Util {
 		//create key
 		SecretKey sKey = (SecretKey) new SecretKeySpec(key, "DES");
 		if (toEncrypt)
-			cipher.init(Cipher.ENCRYPT_MODE, sKey);
+			cipher.init(Cipher.ENCRYPT_MODE, sKey, new IvParameterSpec(new byte[8]));
 		else
-			cipher.init(Cipher.DECRYPT_MODE, sKey);
+			cipher.init(Cipher.DECRYPT_MODE, sKey, new IvParameterSpec(new byte[8]));
 		return cipher.doFinal(data);
 	}
 	public static byte[] mergeKeys(byte[] key1, byte[] key2, int newKeyLength) {
+		String funcName = "mergeKeys";
 		byte[] newKey = new byte[newKeyLength];
-		System.out.println("key1:" + Arrays.toString(key1));
-		System.out.println("key2:" + Arrays.toString(key2));
+		print_log(funcName, "Key1: "+byteArrayToHex(key1));
+		print_log(funcName, "Key2: "+byteArrayToHex(key2));
 		for (int i = 0; i < newKeyLength; i++) {
 			//fill one key of 24 with 2 keys of 8
 			if (i < key1.length)
@@ -51,20 +52,25 @@ public class Util {
 			else
 				newKey[i] = key1[i - key2.length - key1.length];
 		}
-		System.out.println("merged keys:" + Arrays.toString(newKey));
+		print_log(funcName,"Merged Key:"+ byteArrayToHex((newKey)));
 		return newKey;
 	}
 	
 	public static byte[] xorBytes(byte[] first, byte[] second) {
-		byte[] xorResult = new byte[first.length];
-		for (int i = 0; i < first.length; i++) {
-			xorResult[i] = (byte) (first[i] ^ second[i]);
+		//warp the data from 8 to 16 bytes
+		byte[] warpFirst = convertOneByteToTwoArray(first);
+		byte[] warpSecond = convertOneByteToTwoArray(second);
+		byte[] warpXorResult = new byte[warpFirst.length];
+		for (int i = 0; i < warpFirst.length; i++) {
+			warpXorResult[i] = (byte) (warpFirst[i] ^ warpSecond[i]);
 		}
-		return xorResult;
+		//pack the data from 16 to 8 bytes
+		byte[] packXorResult = convertTwoBytesToOneArray(warpXorResult);
+		return packXorResult;
 	}
 	/**
 	 * this function convert two bytes to one byte when the values of the two bytes
-	 * is between 0x00 to 0x09
+	 * is between 0x00 to 0x0F
 	 * @param pan 
 	 * @param index current index of @param pan
 	 * @return product
@@ -73,8 +79,14 @@ public class Util {
 		byte product = (byte) ((pan[index] << 4) | (pan[index+1] & 0x0F));
 		return product;
 	}
+	public static byte[] convertTwoBytesToOneArray(byte[] pan) {
+		byte[] ret = new byte[pan.length / 2];
+		for (int i = 0, index = 0; i < ret.length; i++, index +=2)
+			ret[i] = convertTwoBytesToOne(pan, index);
+		return ret;
+	}
 	/**
-	 * the function for testing the "convertTwoBytesToOne" function
+	 * this function is for testing the "convertTwoBytesToOne" function
 	 * @param data a byte to convert
 	 * @return original bytes
 	 */
@@ -82,7 +94,32 @@ public class Util {
 		byte[] ret = new byte[2];
 		ret[0] = (byte) ((data & 0xF0) >> 4);
 		ret[1] = (byte) (data & 0x0F);
-		System.out.println(Arrays.toString(ret));
 		return ret;
 	}
+	/**
+	 * Receive array of bytes and 
+	 * @param data
+	 * @return
+	 */
+	public static byte[] convertOneByteToTwoArray(byte[] data) {
+		String funcName = "convertOneByteToTwoArray";
+		print_log(funcName, byteArrayToHex(data));
+		byte[] ret = new byte[data.length * 2];
+		for (int i = 0, index = 0; i < data.length; i++, index += 2) {
+			byte[] temp = convertOneByteToTwo(data[i]);
+			ret[index] = temp[0];
+			ret[index+1] = temp[1];
+		}
+		print_log(funcName, byteArrayToHex(data));
+		return ret;
+	}
+	public static void print_log(String unit, String msg) {
+		System.out.println("["+unit+"] "+msg);
+	}
+	public static String byteArrayToHex(byte[] a) {
+		   StringBuilder sb = new StringBuilder(a.length * 2);
+		   for(byte b: a)
+		      sb.append(String.format("%02x", b));
+		   return sb.toString();
+		}
 }
