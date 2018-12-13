@@ -30,19 +30,19 @@ public class MyCVCGenerator implements CVCGenerator {
 		byte[] phase4Result = null;
 		try {
 			phase4Result = Util.encryptDES(key1, blockA, true);
-			Util.print_log(funcName, Arrays.toString(blockB));
+			Util.print_log(funcName, "Phase 4: "+Arrays.toString(blockB));
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException
 				| BadPaddingException | InvalidAlgorithmParameterException e1) {
 			e1.printStackTrace();
 		}
 		//phase 5:XOR phase 4 result with blockB
 		byte[] xorResult = Util.xorBytes(phase4Result, blockB);
-		Util.print_log(funcName, Util.byteArrayToHex(xorResult));
+		Util.print_log(funcName, "xorResult: "+Util.byteArrayToHex(xorResult));
 		//phase 5: encrpyt xor result with keyA
 		byte[] phase5Result = null;
 		try {
 			phase5Result = Util.encrypt3DES(key1, key2, xorResult, true);
-			Util.print_log(funcName, Util.byteArrayToHex(phase5Result));
+			Util.print_log(funcName, "Phase5: "+Util.byteArrayToHex(phase5Result));
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException
 				| InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
 			e.printStackTrace();
