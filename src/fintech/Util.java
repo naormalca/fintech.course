@@ -15,14 +15,14 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class Util {
 	public static byte[] encrypt3DES(byte[] key1, byte[] key2, byte[] data, boolean toEncrypt) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
-		Cipher cipher = Cipher.getInstance("DESede/CBC/NoPadding");
+		Cipher cipher = Cipher.getInstance("DESede/ECB/NoPadding");
 		//create key
 		byte[] newKey = mergeKeys(key1, key2, 24);		
 		SecretKey sKey = (SecretKey) new SecretKeySpec(newKey,"DESede");
 		if (toEncrypt)
-			cipher.init(Cipher.ENCRYPT_MODE, sKey, new IvParameterSpec(new byte[8]));
+			cipher.init(Cipher.ENCRYPT_MODE, sKey);
 		else
-			cipher.init(Cipher.DECRYPT_MODE, sKey, new IvParameterSpec(new byte[8]));
+			cipher.init(Cipher.DECRYPT_MODE, sKey);
 		return cipher.doFinal(data);
 	}
 	public static byte[] encryptDES(byte[] key, byte[] data, boolean toEncrypt) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
@@ -76,6 +76,8 @@ public class Util {
 	 * @return product
 	 */
 	public static byte convertTwoBytesToOne(byte[] pan, int index) {
+		int b1 = Byte.toUnsignedInt(pan[index]);
+		int b2 = Byte.toUnsignedInt(pan[index+1]);
 		byte product = (byte) ((pan[index] << 4) | (pan[index+1] & 0x0F));
 		return product;
 	}

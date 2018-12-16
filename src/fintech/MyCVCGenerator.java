@@ -95,7 +95,6 @@ public class MyCVCGenerator implements CVCGenerator {
 		
 		Util.print_log(funcName, Util.byteArrayToHex(blockA));
 		Util.print_log(funcName, Util.byteArrayToHex(blockB));
-
 		
 		//phase 4:encrypt blockA with key1
 		byte[] phase4Result = null;
