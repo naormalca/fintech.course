@@ -55,6 +55,26 @@ public class Util {
 		print_log(funcName,"Merged Key:"+ byteArrayToHex((newKey)));
 		return newKey;
 	}
+	public static byte[] mergeKeys_x(byte[] key1, byte[] key2, int newKeyLength) {
+		String funcName = "mergeKeys_x";
+		byte[] newKey = new byte[newKeyLength];
+		key1 = convertOneByteToTwoArray(key1);
+		key2 = convertOneByteToTwoArray(key2);
+		print_log(funcName, "Key1: "+byteArrayToHex(key1));
+		print_log(funcName, "Key2: "+byteArrayToHex(key2));
+		for (int i = 0; i < newKeyLength; i++) {
+			//fill one key of 24 with 2 keys of 8
+			if (i < key1.length)
+				newKey[i] = key1[i];
+			else if (i >= key1.length && i < key1.length + key2.length) {
+				newKey[i] = key2[i - key2.length];
+			}
+			else
+				newKey[i] = key1[i - key2.length - key1.length];
+		}
+		print_log(funcName,"Merged Key:"+ byteArrayToHex((newKey)));
+		return newKey;
+	}
 	
 	public static byte[] xorBytes(byte[] first, byte[] second) {
 		//warp the data from 8 to 16 bytes
@@ -81,10 +101,10 @@ public class Util {
 		byte product = (byte) ((pan[index] << 4) | (pan[index+1] & 0x0F));
 		return product;
 	}
-	public static byte[] convertTwoBytesToOneArray(byte[] pan) {
-		byte[] ret = new byte[pan.length / 2];
+	public static byte[] convertTwoBytesToOneArray(byte[] data) {
+		byte[] ret = new byte[data.length / 2];
 		for (int i = 0, index = 0; i < ret.length; i++, index +=2)
-			ret[i] = convertTwoBytesToOne(pan, index);
+			ret[i] = convertTwoBytesToOne(data, index);
 		return ret;
 	}
 	/**
@@ -112,7 +132,7 @@ public class Util {
 			ret[index] = temp[0];
 			ret[index+1] = temp[1];
 		}
-		print_log(funcName, byteArrayToHex(data));
+		print_log(funcName, byteArrayToHex(ret));
 		return ret;
 	}
 	public static void print_log(String unit, String msg) {
