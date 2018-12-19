@@ -144,4 +144,25 @@ public class Util {
 		      sb.append(String.format("%02x", b));
 		   return sb.toString();
 		}
+	public static byte[] extractCvv(byte[] data, int digits) {
+		byte[] cvv = new byte[digits];
+		int indexCvv = 0;
+		//extract the the three left most digit between 0-9
+		for (int i = 0; i < data.length && indexCvv < digits; i++) {
+			if (data[i] <= 9 && data[i] >= 0) {
+				cvv[indexCvv] = data[i];
+				indexCvv++;
+			}
+		}
+		if (indexCvv != 3) {
+			//extract the cvv from bytes that higher than 0x09
+				for (int i = 0; i < data.length && indexCvv < digits; i++) {
+					if (data[i] > 0x09) {
+						cvv[indexCvv] = (byte) (data[i] - 10);
+						indexCvv++;
+					}
+				}
+			}
+		return cvv;
+	}
 }
