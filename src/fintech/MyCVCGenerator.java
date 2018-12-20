@@ -47,22 +47,7 @@ public class MyCVCGenerator implements CVCGenerator {
 				| InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
 			e.printStackTrace();
 		}
-		//extract the the three left most digit between 0-9
-		for (int i = 0; i < phase5Result.length && indexCvv < digits; i++) {
-			if (phase5Result[i] <= 0x09 && phase5Result[i] >= 0x00) {
-				cvv[indexCvv] = phase5Result[i];
-				indexCvv++;
-			}
-		}
-		if (indexCvv != 3) {
-			//extract the cvv from bytes that higher than 0x09
-			for (int i = 0; i < phase5Result.length && indexCvv < digits; i++) {
-				if (phase5Result[i] > 0x09) {
-					cvv[indexCvv] = (byte) (phase5Result[i] - 0x10);
-					indexCvv++;
-				}
-			}
-		}
+		cvv = Util.extrcatCvv(phase5Result, digits);
 		return cvv;
 	}
 
@@ -117,22 +102,7 @@ public class MyCVCGenerator implements CVCGenerator {
 				| InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
 			e.printStackTrace();
 		}
-		//extract the the three left most digit between 0-9
-		for (int i = 0; i < phase5Result.length && indexCvv < digits; i++) {
-			if (phase5Result[i] <= 0x09 && phase5Result[i] >= 0x00) {
-				cvv[indexCvv] = phase5Result[i];
-				indexCvv++;
-			}
-		}
-		if (indexCvv != 3) {
-			//extract the cvv from bytes that higher than 0x09
-			for (int i = 0; i < phase5Result.length && indexCvv < digits; i++) {
-				if (phase5Result[i] > 0x09) {
-					cvv[indexCvv] = (byte) (phase5Result[i] - 0x10);
-					indexCvv++;
-				}
-			}
-		}
+		cvv = Util.extrcatCvv(phase5Result, digits);
 		return cvv;
 	}
 
