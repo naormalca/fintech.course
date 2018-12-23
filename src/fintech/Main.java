@@ -29,7 +29,7 @@ public class Main {
  		
 		MyCVCGenerator s = new MyCVCGenerator();
 		Util.print_log("MAIN", Util.byteArrayToHex(s.getCVCValue(data, key1, key2, 4)));
-		Util.print_log("MAIN", Util.byteArrayToHex(s.getCVCValue(pan, expiry, sc, key1, key2, 4)));
+		Util.print_log("MAIN", Util.byteArrayToHex((s.getCVCValue(pan, expiry, sc, key1, key2, 4))));
 	}
 
 }

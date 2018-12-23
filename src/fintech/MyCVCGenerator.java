@@ -17,7 +17,6 @@ public class MyCVCGenerator implements CVCGenerator {
 		byte[] blockA = new byte[8];
 		byte[] blockB = new byte[8];
 		byte[] cvv = new byte[digits];
-		int indexCvv = 0;
 		//split to two blocks
 		blockA = Arrays.copyOfRange(data, 0, 8);
 		blockB = Arrays.copyOfRange(data, 8, 16);
@@ -63,7 +62,6 @@ public class MyCVCGenerator implements CVCGenerator {
 		byte[] blockB = new byte[8];
 		byte[] cvv = new byte[digits];
 		int index = 0;
-		int indexCvv = 0;
 		String funcName = "getCVCValue";
 		
 		//first insert the pan to blockA
