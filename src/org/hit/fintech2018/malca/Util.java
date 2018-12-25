@@ -1,4 +1,4 @@
-package fintech;
+package org.hit.fintech2018.malca;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -129,14 +129,14 @@ public class Util {
 	 */
 	public static byte[] convertOneByteToTwoArray(byte[] data) {
 		String funcName = "convertOneByteToTwoArray";
-		print_log(funcName, byteArrayToHex(data));
+		print_log(funcName, "Input: "+byteArrayToHex(data));
 		byte[] ret = new byte[data.length * 2];
 		for (int i = 0, index = 0; i < data.length; i++, index += 2) {
 			byte[] temp = convertOneByteToTwo(data[i]);
 			ret[index] = temp[0];
 			ret[index+1] = temp[1];
 		}
-		print_log(funcName, byteArrayToHex(ret));
+		print_log(funcName, "Output: "+byteArrayToHex(ret));
 		return ret;
 	}
 	
@@ -173,12 +173,5 @@ public class Util {
 			}
 		return cvv;
 	}
-	public static void p(byte[] data) {
-		System.out.println();
-		for (int j = 0; j < data.length; j++) {
-			int x = Byte.toUnsignedInt(data[j]);
-			System.out.print(x+" ");			
-		}
-		System.out.println();
-	}
+	
 }

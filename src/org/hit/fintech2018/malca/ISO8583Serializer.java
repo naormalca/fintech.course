@@ -1,4 +1,4 @@
-package fintech;
+package org.hit.fintech2018.malca;
 
 import java.util.Map;
 

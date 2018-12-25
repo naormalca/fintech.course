@@ -1,4 +1,4 @@
-package fintech;
+package org.hit.fintech2018.malca;
 
 import java.util.Arrays;
 
@@ -22,7 +22,7 @@ public class MyLuhnChecker implements LuhnChecker {
 	}
 	public boolean isLuhnValid(byte[] data) throws Exception {
 		dataValidation(data);
-		byte []noCheckDigit = Arrays.copyOfRange(data, 0, data.length-1);
+		byte[] noCheckDigit = Arrays.copyOfRange(data, 0, data.length-1);
 		byte checkDigit = getLuhnDigit(noCheckDigit);
 		if (checkDigit % 10 == 0)
 			return true;

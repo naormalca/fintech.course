@@ -1,4 +1,4 @@
-package fintech;
+package org.hit.fintech2018.malca;
 
 
 
@@ -28,28 +28,11 @@ public class Main {
 		System.out.println("Keys length:"+key1.length+" and "+key2.length);
  		
 		MyCVCGenerator s = new MyCVCGenerator();
-		Util.print_log("MAIN", Util.byteArrayToHex(s.getCVCValue(data, key1, key2, 4)));
+		//Util.print_log("MAIN", Util.byteArrayToHex(s.getCVCValue(data, key1, key2, 4)));
 		Util.print_log("MAIN", Util.byteArrayToHex((s.getCVCValue(pan, expiry, sc, key1, key2, 4))));
+		boolean t = s.checkCVCValue(data, key1, key2, new byte[] {2, 4, 1, 0});
+		System.out.println(t);
 	}
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//the last digit need to complance to number that / in 10
