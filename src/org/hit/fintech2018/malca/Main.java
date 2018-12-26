@@ -4,16 +4,21 @@ package org.hit.fintech2018.malca;
 
 public class Main {
 	public static void main(String[] args) throws Exception  {
-		/*	//058721952
+			//058721952
 		byte[] digits = {0,5,8,7,2,1,9,5,2};
 		byte[] digits2 = {4,5,8,0,1,4,0,0,0,1,2,1,3,2,1,8};
 		//201568326
-		fintech.MyLuhnChecker t = new fintech.MyLuhnChecker();
-		System.out.println(t.getLuhnDigit(digits2));
-		System.out.println(t.isLuhnValid(digits));*/
-		//byte[] keyOne = {0x0D,6,7,6,0x0D,0x0C,0x0F,3,0x0A,0x0F,0x0B,0x07,3,5,0,5};
-		//byte[] keyTwo = {0x03,0x02,0x0E,0x0A,0x0F,0x00,0x00,0x0E,0x0A,0x02,0x05,0x03,0x0D,0x08,0x07,0x05};
+		MyLuhnChecker t = new MyLuhnChecker();
+		//System.out.println(t.getLuhnDigit(digits2));
+		//System.out.println(t.isLuhnValid(digits2));
+		System.out.println("<1>"+t.getLuhnDigit1(digits2));
+		System.out.println("<1>"+t.isLuhnValid1(digits2));
 		
+		
+		
+		
+		byte[] keyOne = {0x0D,6,7,6,0x0D,0x0C,0x0F,3,0x0A,0x0F,0x0B,0x07,3,5,0,5};
+		byte[] keyTwo = {0x03,0x02,0x0E,0x0A,0x0F,0x00,0x00,0x0E,0x0A,0x02,0x05,0x03,0x0D,0x08,0x07,0x05};
 		byte[] pan = {4,1,2,3,4,5,0,9,9,0,1,2,2,1,2,9};
 		byte[] expiry = {0x07,0x21};
 		byte[] sc = {0x20,0x20};
@@ -30,8 +35,9 @@ public class Main {
 		MyCVCGenerator s = new MyCVCGenerator();
 		//Util.print_log("MAIN", Util.byteArrayToHex(s.getCVCValue(data, key1, key2, 4)));
 		Util.print_log("MAIN", Util.byteArrayToHex((s.getCVCValue(pan, expiry, sc, key1, key2, 4))));
-		boolean t = s.checkCVCValue(data, key1, key2, new byte[] {2, 4, 1, 0});
-		System.out.println(t);
+		boolean CHECK = s.checkCVCValue(data, key1, key2, new byte[] {2, 4, 1, 0});
+		System.out.println(CHECK);
+		
 	}
 
 }

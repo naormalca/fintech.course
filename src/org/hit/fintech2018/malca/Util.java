@@ -26,15 +26,13 @@ public class Util {
 	}
 	
 	public static byte[] encryptDES(byte[] key, byte[] data, boolean toEncrypt) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
-		Cipher cipher = Cipher.getInstance("DES/CBC/NoPadding");
-		//ensure key is 8 length
-		key = Arrays.copyOfRange(key, 0, 8);
+		Cipher cipher = Cipher.getInstance("DES/ECB/NoPadding");
 		//create key
 		SecretKey sKey = (SecretKey) new SecretKeySpec(key, "DES");
 		if (toEncrypt)
-			cipher.init(Cipher.ENCRYPT_MODE, sKey, new IvParameterSpec(new byte[8]));
+			cipher.init(Cipher.ENCRYPT_MODE, sKey);
 		else
-			cipher.init(Cipher.DECRYPT_MODE, sKey, new IvParameterSpec(new byte[8]));
+			cipher.init(Cipher.DECRYPT_MODE, sKey);
 		return cipher.doFinal(data);
 	}
 	
@@ -149,7 +147,7 @@ public class Util {
 		   for(byte b: a)
 		      sb.append(String.format("%02x ", b));
 		   return sb.toString();
-		}
+	}
 
 	public static byte[] extractCvv(byte[] data, int digits) {
 		int indexCvv = 0;
