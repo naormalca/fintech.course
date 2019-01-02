@@ -1,7 +1,10 @@
 package org.hit.fintech2018.malca;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -11,6 +14,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Util {
+
 	public static byte[] encrypt3DES(byte[] key1, byte[] key2, byte[] data, boolean toEncrypt) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		Cipher cipher = Cipher.getInstance("DESede/ECB/NoPadding");
 		//create key
@@ -37,43 +41,15 @@ public class Util {
 	public static byte[] mergeKeys(byte[] key1, byte[] key2, int newKeyLength) {
 		String funcName = "mergeKeys";
 		byte[] newKey = new byte[newKeyLength];
-		print_log(funcName, "Key1: "+byteArrayToHex(key1));
-		print_log(funcName, "Key2: "+byteArrayToHex(key2));
-		for (int i = 0; i < newKeyLength; i++) {
-			//fill one key of 24 with 2 keys of 8
-			if (i < key1.length)
-				newKey[i] = key1[i];
-			else if (i >= key1.length && i < key1.length + key2.length) {
-				newKey[i] = key2[i - key2.length];
-			}
-			else
-				newKey[i] = key1[i - key2.length - key1.length];
+		try {
+			newKey = byteArraysConcat(key1, key2, key1);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		print_log(funcName,"Merged Key:"+ byteArrayToHex((newKey)));
 		return newKey;
 	}
-	
-	public static byte[] mergeKeys_x(byte[] key1, byte[] key2, int newKeyLength) {
-		String funcName = "mergeKeys_x";
-		byte[] newKey = new byte[newKeyLength];
-		key1 = convertOneByteToTwoArray(key1);
-		key2 = convertOneByteToTwoArray(key2);
-		print_log(funcName, "Key1: "+byteArrayToHex(key1));
-		print_log(funcName, "Key2: "+byteArrayToHex(key2));
-		for (int i = 0; i < newKeyLength; i++) {
-			//fill one key of 24 with 2 keys of 8
-			if (i < key1.length)
-				newKey[i] = key1[i];
-			else if (i >= key1.length && i < key1.length + key2.length) {
-				newKey[i] = key2[i - key2.length];
-			}
-			else
-				newKey[i] = key1[i - key2.length - key1.length];
-		}
-		print_log(funcName,"Merged Key:"+ byteArrayToHex((newKey)));
-		return newKey;
-	}
-	
+		
 	public static byte[] xorBytes(byte[] first, byte[] second) {
 		//warp the data from 8 to 16 bytes
 		byte[] warpFirst = convertOneByteToTwoArray(first);
@@ -158,7 +134,7 @@ public class Util {
 				indexCvv++;
 			}
 		}
-		if (indexCvv != 3) {
+		if (indexCvv != digits) {
 			//extract the cvv from bytes that higher than 0x09
 				for (int i = 0; i < data.length && indexCvv < digits; i++) {
 					if (data[i] > 9) {
@@ -167,7 +143,31 @@ public class Util {
 					}
 				}
 			}
+		System.out.println(byteArrayToHex(cvv));
 		return cvv;
 	}
+	
+	public static byte[] rightPadding(byte[] source, int newLength) {
+        return Arrays.copyOf(source, newLength);
+    }
+	
+	public static byte[] byteArraysConcat(byte[]...arrays)   throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        for (byte[] arr : arrays)
+            outputStream.write(arr);
+        return outputStream.toByteArray();
+
+    }
+	/*
+	 * Also padding to left
+	 */
+	public static byte[] packData(byte[] data) {
+		//extend and padding
+		data = rightPadding(data, 32);
+		//pack
+		data = convertTwoBytesToOneArray(data);
+		return data;
+	}
+
 	
 }
