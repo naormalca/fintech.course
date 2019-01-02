@@ -8,7 +8,6 @@ public class MyLuhnChecker implements LuhnChecker {
 
 	/**
 	 * in my assumption the input include the check digit.
-	 * 
 	 * @param data credit card
 	 * @return the check digit of the credit card by Luhn algorithm
 	 * @throws Exception
@@ -32,7 +31,6 @@ public class MyLuhnChecker implements LuhnChecker {
 
 	/**
 	 * in my assumption the input include the check digit.
-	 * 
 	 * @param data credit card
 	 * @return if the check digit of data is correct
 	 * @throws Exception
@@ -44,7 +42,6 @@ public class MyLuhnChecker implements LuhnChecker {
 
 	/**
 	 * function to check edge cases of inputs
-	 * 
 	 * @param data credit card
 	 * @throws Exception
 	 */
