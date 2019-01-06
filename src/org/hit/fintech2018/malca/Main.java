@@ -2,7 +2,8 @@ package org.hit.fintech2018.malca;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
-		testCVCGenerator();
+		//testCVCGenerator();
+		testLuhn();
 	}
 
 	public static void testLuhn() {
