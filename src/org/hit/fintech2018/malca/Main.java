@@ -8,7 +8,7 @@ public class Main {
 
 	public static void testLuhn() {
 		MyLuhnChecker t = new MyLuhnChecker();
-		String[] cardsNumbers = { "45800000000000007", "545865929597829","312345671234567123456712345621",
+		String[] cardsNumbers = { "45800000000000007", "5458659295978282","312345671234567123456712345621",
 				"44802912703390768", "47564325589428465"};
 		for (String str : cardsNumbers) {
 			try {

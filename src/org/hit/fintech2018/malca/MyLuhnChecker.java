@@ -18,14 +18,13 @@ public class MyLuhnChecker implements LuhnChecker {
 	public byte getLuhnDigit(byte[] data) throws Exception {
 		dataValidation(data);
 		byte sum = 0;
-		for (int i = 0; i < data.length; i++) {
-			if (i % 2 ==0) {
-				sum += (data[data.length - 1 - i] << 1) % 9;
+		for (int i = data.length; i > 0; i--) {
+			if (i % 2 != 0) {
+				sum += (data[data.length - i] << 1) % 9;
 			} else {
-				sum += data[data.length -1 - i];
+				sum += data[data.length - i];
 			}
 		}
-		System.out.println(sum);
 		return (byte) ((10 - (sum % 10)) % 10);
 	}
 
