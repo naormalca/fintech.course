@@ -8,8 +8,8 @@ public class Main {
 
 	public static void testLuhn() {
 		MyLuhnChecker t = new MyLuhnChecker();
-		String[] cardsNumbers = { "5458659295978281", "5484296511939082", "5353708349418830", "5554141355335275",
-				"5182921631794373", "5383615508028058", "5463196110173833", "5223715763560128", "5383452767582611", };
+		String[] cardsNumbers = { "45800000000000007", "545865929597829","312345671234567123456712345621",
+				"44802912703390768", "47564325589428465"};
 		for (String str : cardsNumbers) {
 			try {
 				System.out.println(str + ": " + t.isLuhnValid(stringToByteArray(str)));
@@ -17,7 +17,7 @@ public class Main {
 				e.printStackTrace();
 			}
 		}
-	}
+	}	
 
 	public static byte[] stringToByteArray(String byteArrayAsString) {
 		byte[] arrayToReturn = new byte[byteArrayAsString.length()];
