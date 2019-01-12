@@ -25,6 +25,7 @@ public class MyLuhnChecker implements LuhnChecker {
 				sum += data[data.length -1 - i];
 			}
 		}
+		System.out.println(sum);
 		return (byte) ((10 - (sum % 10)) % 10);
 	}
 
