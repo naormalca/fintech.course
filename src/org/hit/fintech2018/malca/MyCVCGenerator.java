@@ -71,7 +71,7 @@ public class MyCVCGenerator implements CVCGenerator {
 
 	/*
 	 * The function check if the input cvc is correct.
-	 * Assumptions: 1)The cvcValue defines the length of the output cvc.
+	 * Assumptions: 1)The cvcValue defines the length of the cvc(the output).
 	 */
 	@Override
 	public boolean checkCVCValue(byte[] data, byte[] key1, byte[] key2, byte[] cvcValue) {

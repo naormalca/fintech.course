@@ -2,8 +2,8 @@ package org.hit.fintech2018.malca;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
-		//testCVCGenerator();
-		testLuhn();
+		testCVCGenerator();
+		//testLuhn();
 	}
 
 	public static void testLuhn() {
@@ -42,7 +42,7 @@ public class Main {
 		MyCVCGenerator s = new MyCVCGenerator();
 		Util.print_log("MAIN", Util.byteArrayToHex(s.getCVCValue(data, key1, key2, 4)));
 		Util.print_log("MAIN", Util.byteArrayToHex((s.getCVCValue(pan, expiry, sc, key1, key2, 4))));
-		boolean CHECK = s.checkCVCValue(data, key1, key2, new byte[] {2, 4, 1});
+		boolean CHECK = s.checkCVCValue(data, key1, key2, new byte[] {2, 4, 1, 0});
 		System.out.println(CHECK);
 	}
 }
