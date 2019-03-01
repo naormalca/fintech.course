@@ -1,9 +1,17 @@
 package org.hit.fintech2018.malca;
 
+import org.hit.fintech2018.malca.Assignment3.Helpers;
+import org.hit.fintech2018.malca.Assignment3.ISO8583Serializer;
+import org.hit.fintech2018.malca.Assignment3.MyISO8583Serializer;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class Main {
 	public static void main(String[] args) throws Exception {
-		testCVCGenerator();
+		//testCVCGenerator();
 		//testLuhn();
+		testISO8583();
 	}
 
 	public static void testLuhn() {
@@ -44,5 +52,31 @@ public class Main {
 		Util.print_log("MAIN", Util.byteArrayToHex((s.getCVCValue(pan, expiry, sc, key1, key2, 4))));
 		boolean CHECK = s.checkCVCValue(data, key1, key2, new byte[] {2, 4, 1, 0});
 		System.out.println(CHECK);
+	}
+	public static void testISO8583() {
+		ISO8583Serializer mRun;
+		mRun = new MyISO8583Serializer();
+		Map<Integer, byte[]> data = new LinkedHashMap<>();
+		data.put(2, new byte[]{
+				0x04, 0x05, 0x08, 0x00,
+				0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00,
+				0x00, 0x01});
+		data.put(8, new byte[]{0x01, 0x02, 0x03});
+		data.put(9, new byte[]{0x04, 0x05, 0x06, 0x07});
+		data.put(18, new byte[]{0x08, 0x09, 0x00, 0x01});
+		data.put(49, new byte[]{0x02, 0x03, 0x04,});
+		data.put(1, new byte[]{
+				1, 1, 0, 0, 0, 0, 0, 1,
+				1, 0, 0, 0, 0, 0, 0, 0,
+				0, 1, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 0,
+				1, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 0});
+		byte[] s = mRun.serializeISO8583(1, data);
+		Helpers.byteArrayToHex(s);
 	}
 }
